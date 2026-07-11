@@ -1,0 +1,72 @@
+generator client {
+  provider               = "prisma-client"
+  output                 = "../src/lib/prisma"
+  moduleFormat           = "esm"
+  generatedFileExtension = "ts"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Player {
+  id                     String        @id @default(cuid())
+  organizationId         String
+  organization           Organization  @relation(fields: [organizationId], references: [id])
+  userId                 String?       @unique
+  user                   User?         @relation(fields: [userId], references: [id])
+  name                   String
+  image                  String?
+  createdAt              DateTime      @default(now())
+  potmMatches            Match[]       @relation("PlayerOfTheMatch")
+  teamMemberships        TeamPlayer[]
+  matchSelections        MatchPlayer[]
+  battingBalls           Ball[]        @relation("BallBatter")
+  nonStrikerBalls        Ball[]        @relation("BallNonStriker")
+  bowlingBalls           Ball[]        @relation("BallBowler")
+  fieldingBalls          Ball[]        @relation("BallFielder")
+  secondaryFieldingBalls Ball[]        @relation("BallSecondaryFielder")
+  dismissedBalls         Ball[]        @relation("BallDismissedPlayer")
+
+  @@unique([id, organizationId])
+  @@index([organizationId])
+  @@map("players")
+}
+
+model Team {
+  id             String        @id @default(cuid())
+  organizationId String
+  organization   Organization  @relation(fields: [organizationId], references: [id])
+  name           String
+  slug           String
+  image          String?
+  createdAt      DateTime      @default(now())
+  roster         TeamPlayer[]
+  matchTeamA     Match[]       @relation("MatchTeamA")
+  matchTeamB     Match[]       @relation("MatchTeamB")
+  tossWonMatches Match[]       @relation("MatchTossWinner")
+  wonMatches     Match[]       @relation("MatchWinner")
+  battingInnings Inning[]      @relation("BattingTeam")
+  bowlingInnings Inning[]      @relation("BowlingTeam")
+  matchPlayers   MatchPlayer[]
+
+  @@unique([id, organizationId])
+  @@unique([organizationId, slug])
+  @@index([organizationId])
+  @@map("teams")
+}
+
+model TeamPlayer {
+  id             String   @id @default(cuid())
+  organizationId String
+  teamId         String
+  team           Team     @relation(fields: [teamId, organizationId], references: [id, organizationId])
+  playerId       String
+  player         Player   @relation(fields: [playerId, organizationId], references: [id, organizationId])
+  createdAt      DateTime @default(now())
+
+  @@unique([organizationId, teamId, playerId])
+  @@index([organizationId, playerId])
+  @@index([organizationId, teamId])
+  @@map("team_players")
+}

@@ -1,0 +1,117 @@
+model User {
+  id            String       @id
+  name          String
+  email         String
+  emailVerified Boolean      @default(false)
+  image         String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+  members       Member[]
+  invitations   Invitation[]
+  player        Player?
+
+  @@unique([email])
+  @@map("users")
+}
+
+model Session {
+  id                   String   @id
+  expiresAt            DateTime
+  token                String
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  ipAddress            String?
+  userAgent            String?
+  activeOrganizationId String?
+  activeTeamId         String?
+  userId               String
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("sessions")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("accounts")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verifications")
+}
+
+model Organization {
+  id          String       @id
+  name        String
+  slug        String
+  logo        String?
+  metadata    String?
+  createdAt   DateTime     @default(now())
+  members     Member[]
+  invitations Invitation[]
+  players     Player[]
+  teams       Team[]
+  matches     Match[]
+  innings     Inning[]
+  balls       Ball[]
+
+  @@unique([slug])
+  @@map("organizations")
+}
+
+model Member {
+  id             String       @id
+  role           String
+  userId         String
+  user           User         @relation(fields: [userId], references: [id])
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  createdAt      DateTime     @default(now())
+
+  @@index([organizationId])
+  @@index([userId])
+  @@map("members")
+}
+
+model Invitation {
+  id             String       @id
+  email          String
+  role           String?
+  status         String
+  inviterId      String
+  inviter        User         @relation(fields: [inviterId], references: [id])
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  createdAt      DateTime     @default(now())
+  expiresAt      DateTime
+
+  @@index([organizationId])
+  @@index([email])
+  @@map("invitations")
+}

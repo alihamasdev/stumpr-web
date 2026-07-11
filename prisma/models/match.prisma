@@ -1,0 +1,118 @@
+model Match {
+  id                 String         @id @default(cuid())
+  organizationId     String
+  organization       Organization   @relation(fields: [organizationId], references: [id])
+  matchNumber        Int
+  matchType          MATCH_TYPE     @default(LIMITED_OVERS)
+  status             MATCH_STATUS   @default(SCHEDULED)
+  oversPerInning     Int?
+  teamAId            String
+  teamA              Team           @relation("MatchTeamA", fields: [teamAId, organizationId], references: [id, organizationId])
+  teamBId            String
+  teamB              Team           @relation("MatchTeamB", fields: [teamBId, organizationId], references: [id, organizationId])
+  tossWinnerTeamId   String?
+  tossWinnerTeam     Team?          @relation("MatchTossWinner", fields: [tossWinnerTeamId, organizationId], references: [id, organizationId])
+  tossDecision       TOSS_DECISION?
+  winnerTeamId       String?
+  winnerTeam         Team?          @relation("MatchWinner", fields: [winnerTeamId, organizationId], references: [id, organizationId])
+  result             MATCH_RESULT?
+  winMarginRuns      Int?
+  winMarginWickets   Int?
+  playerOfTheMatchId String?
+  playerOfTheMatch   Player?        @relation("PlayerOfTheMatch", fields: [playerOfTheMatchId, organizationId], references: [id, organizationId])
+  startedAt          DateTime?
+  endedAt            DateTime?
+  createdAt          DateTime       @default(now())
+  innings            Inning[]
+  players            MatchPlayer[]
+
+  @@unique([id, organizationId])
+  @@unique([organizationId, matchNumber])
+  @@index([organizationId, status, createdAt])
+  @@index([organizationId, startedAt])
+  @@index([organizationId, teamAId])
+  @@index([organizationId, teamBId])
+  @@map("matches")
+}
+
+model MatchPlayer {
+  id             String   @id @default(cuid())
+  organizationId String
+  matchId        String
+  match          Match    @relation(fields: [matchId, organizationId], references: [id, organizationId])
+  teamId         String
+  team           Team     @relation(fields: [teamId, organizationId], references: [id, organizationId])
+  playerId       String
+  player         Player   @relation(fields: [playerId, organizationId], references: [id, organizationId])
+  isCaptain      Boolean  @default(false)
+  isWicketKeeper Boolean  @default(false)
+  isSubstitute   Boolean  @default(false)
+  createdAt      DateTime @default(now())
+
+  @@unique([organizationId, matchId, teamId, playerId])
+  @@index([organizationId, matchId])
+  @@index([organizationId, teamId])
+  @@index([organizationId, playerId])
+  @@map("match_players")
+}
+
+model Inning {
+  id             String        @id @default(cuid())
+  organizationId String
+  organization   Organization  @relation(fields: [organizationId], references: [id])
+  matchId        String
+  match          Match         @relation(fields: [matchId, organizationId], references: [id, organizationId])
+  inningNumber   Int
+  status         INNING_STATUS @default(NOT_STARTED)
+  battingTeamId  String
+  battingTeam    Team          @relation("BattingTeam", fields: [battingTeamId, organizationId], references: [id, organizationId])
+  bowlingTeamId  String
+  bowlingTeam    Team          @relation("BowlingTeam", fields: [bowlingTeamId, organizationId], references: [id, organizationId])
+  oversLimit     Int?
+  targetRuns     Int?
+  createdAt      DateTime      @default(now())
+  balls          Ball[]
+
+  @@unique([id, organizationId])
+  @@unique([matchId, inningNumber])
+  @@index([organizationId, matchId, status])
+  @@index([organizationId, battingTeamId])
+  @@index([organizationId, bowlingTeamId])
+  @@map("innings")
+}
+
+model Ball {
+  id                 String          @id @default(cuid())
+  organizationId     String
+  organization       Organization    @relation(fields: [organizationId], references: [id])
+  inningId           String
+  inning             Inning          @relation(fields: [inningId, organizationId], references: [id, organizationId])
+  sequence           Int
+  batterId           String
+  batter             Player          @relation("BallBatter", fields: [batterId, organizationId], references: [id, organizationId])
+  bowlerId           String
+  bowler             Player          @relation("BallBowler", fields: [bowlerId, organizationId], references: [id, organizationId])
+  nonStrikerId       String
+  nonStriker         Player          @relation("BallNonStriker", fields: [nonStrikerId, organizationId], references: [id, organizationId])
+  fielderId          String?
+  fielder            Player?         @relation("BallFielder", fields: [fielderId, organizationId], references: [id, organizationId])
+  secondaryFielderId String?
+  secondaryFielder   Player?         @relation("BallSecondaryFielder", fields: [secondaryFielderId, organizationId], references: [id, organizationId])
+  dismissedPlayerId  String?
+  dismissedPlayer    Player?         @relation("BallDismissedPlayer", fields: [dismissedPlayerId, organizationId], references: [id, organizationId])
+  dismissalKind      DISMISSAL_KIND?
+  runsOffBat         Int             @default(0)
+  wides              Int             @default(0)
+  noBalls            Int             @default(0)
+  byes               Int             @default(0)
+  legByes            Int             @default(0)
+  createdAt          DateTime        @default(now())
+
+  @@unique([id, organizationId])
+  @@unique([inningId, sequence])
+  @@index([organizationId, inningId, sequence])
+  @@index([organizationId, batterId])
+  @@index([organizationId, bowlerId])
+  @@index([organizationId, dismissedPlayerId])
+  @@map("balls")
+}
