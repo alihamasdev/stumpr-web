@@ -1,3 +1,4 @@
+import { Toast } from "@heroui/react";
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
@@ -18,6 +19,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			</head>
 			<body>
 				{children}
+				<Toast.Provider />
 				<Scripts />
 			</body>
 		</html>
