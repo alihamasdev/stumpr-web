@@ -5,6 +5,11 @@ generator client {
   generatedFileExtension = "ts"
 }
 
+generator zero {
+  provider = "prisma-zero"
+  output   = "../src/lib/zero"
+}
+
 datasource db {
   provider = "postgresql"
 }

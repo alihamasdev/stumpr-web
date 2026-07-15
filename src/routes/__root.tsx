@@ -1,9 +1,19 @@
+import type { ZeroOptions } from "@rocicorp/zero";
+import { ZeroProvider } from "@rocicorp/zero/react";
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 
+import { mutators } from "@/lib/zero/mutators";
+import { schema } from "@/lib/zero/schema";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 import appCss from "../styles.css?url";
+
+const zeroOpts: ZeroOptions = {
+	cacheURL: "http://localhost:4848",
+	schema,
+	mutators,
+};
 
 export const Route = createRootRoute({
 	head: () => ({
@@ -21,7 +31,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			</head>
 			<body>
 				<TooltipProvider>
-					{children}
+					<ZeroProvider {...zeroOpts}>{children}</ZeroProvider>
 					<Toaster />
 				</TooltipProvider>
 				<Scripts />
