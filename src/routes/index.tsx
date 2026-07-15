@@ -1,7 +1,10 @@
-import { Avatar, Card, Chip, Separator } from "@heroui/react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { CloudOffIcon, RotateCcwIcon, UsersIcon } from "lucide-react";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { GoogleLogin } from "@/components/google-login";
 import { StumprIcon } from "@/components/icons";
 
@@ -44,11 +47,11 @@ export const Route = createFileRoute("/")({
 									<br />
 									Every Story
 								</h1>
-								<p className="text-muted-foreground max-w-xl text-xl text-pretty">
+								<p className="max-w-xl text-xl text-pretty text-muted-foreground">
 									Score local cricket without the clutter. Stumpr keeps matches, scorecards, and player stats together for your whole organization.
 								</p>
 							</div>
-							<div className="text-muted-foreground flex flex-wrap items-center gap-x-4 gap-y-2">
+							<div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-muted-foreground">
 								<span>Ball-by-ball scoring</span>
 								<span aria-hidden="true">•</span>
 								<span>Safe undo</span>
@@ -67,7 +70,7 @@ export const Route = createFileRoute("/")({
 						<div className="flex flex-col space-y-10">
 							<div className="flex max-w-2xl flex-col gap-4">
 								<h2 className="text-3xl font-bold text-balance sm:text-5xl">Everything your local cricket needs.</h2>
-								<p className="text-muted-foreground text-xl text-pretty">Fast enough for the scorer, clear enough for everyone following along.</p>
+								<p className="text-xl text-pretty text-muted-foreground">Fast enough for the scorer, clear enough for everyone following along.</p>
 							</div>
 
 							<div className="grid gap-6 md:grid-cols-3">
@@ -94,7 +97,7 @@ export const Route = createFileRoute("/")({
 						<div className="grid gap-12 lg:grid-cols-2 lg:items-start">
 							<div className="flex max-w-xl flex-col gap-4">
 								<h2 className="text-3xl font-bold text-balance sm:text-5xl">From toss to scorecard in three steps.</h2>
-								<p className="text-muted-foreground text-xl text-pretty">No setup maze. Create the match, pick your players, and start recording the action.</p>
+								<p className="text-xl text-pretty text-muted-foreground">No setup maze. Create the match, pick your players, and start recording the action.</p>
 							</div>
 
 							<div className="grid gap-4">
@@ -138,23 +141,23 @@ function ScorecardPreview() {
 	return (
 		<div className="relative mx-auto w-full max-w-xl">
 			<Card className="relative">
-				<Card.Header>
+				<CardHeader>
 					<div className="flex items-center justify-between gap-4">
 						<div className="flex flex-col gap-1">
-							<Card.Description>Community Ground · 2nd innings</Card.Description>
-							<Card.Title>Friday Night Cricket</Card.Title>
+							<CardDescription>Community Ground · 2nd innings</CardDescription>
+							<CardTitle>Friday Night Cricket</CardTitle>
 						</div>
-						<Chip variant="primary">Live</Chip>
+						<Badge>Live</Badge>
 					</div>
-				</Card.Header>
-				<Card.Content className="flex flex-col gap-6">
+				</CardHeader>
+				<CardContent className="flex flex-col gap-6">
 					<div className="grid gap-4">
 						<TeamScore name="Street Strikers" score="148/6" overs="20.0 ov" />
 						<Separator />
 						<TeamScore name="Corner Kings" score="112/3" overs="15.2 ov" active />
 					</div>
 
-					<div className="rounded-lg bg-default p-4">
+					<div className="bg-default rounded-lg p-4">
 						<div className="flex items-center justify-between gap-4 text-sm">
 							<span>Need 37 from 28 balls</span>
 							<span className="font-medium tabular-nums">RR 7.30</span>
@@ -165,13 +168,13 @@ function ScorecardPreview() {
 						<span className="text-sm text-muted">This over</span>
 						<div className="flex gap-2">
 							{["1", "4", "0", "2"].map((ball) => (
-								<div key={ball} className="inline-flex size-8 items-center justify-center rounded-full bg-default text-sm tabular-nums">
+								<div key={ball} className="bg-default inline-flex size-8 items-center justify-center rounded-full text-sm tabular-nums">
 									{ball}
 								</div>
 							))}
 						</div>
 					</div>
-				</Card.Content>
+				</CardContent>
 			</Card>
 		</div>
 	);
@@ -182,16 +185,16 @@ function TeamScore({ name, score, overs, active = false }: { name: string; score
 		<div className="flex items-center justify-between gap-4">
 			<div className="flex items-center gap-3">
 				<Avatar size="lg">
-					<Avatar.Fallback>{name.slice(0, 2).toUpperCase()}</Avatar.Fallback>
+					<AvatarFallback>{name.slice(0, 2).toUpperCase()}</AvatarFallback>
 				</Avatar>
 				<div className="flex flex-col gap-0.5">
 					<span className="font-medium">{name}</span>
-					<span className="text-muted-foreground text-sm">{active ? "Batting" : "Innings complete"}</span>
+					<span className="text-sm text-muted-foreground">{active ? "Batting" : "Innings complete"}</span>
 				</div>
 			</div>
 			<div className="text-right">
 				<p className="text-2xl font-semibold tracking-tight tabular-nums">{score}</p>
-				<p className="text-muted-foreground text-sm tabular-nums">{overs}</p>
+				<p className="text-sm text-muted-foreground tabular-nums">{overs}</p>
 			</div>
 		</div>
 	);
@@ -200,13 +203,13 @@ function TeamScore({ name, score, overs, active = false }: { name: string; score
 function FeatureCard({ icon: Icon, title, description }: { icon: typeof CloudOffIcon; title: string; description: string }) {
 	return (
 		<Card>
-			<Card.Header>
-				<div className="bg-secondary mb-5 flex size-11 items-center justify-center rounded-lg">
+			<CardHeader>
+				<div className="mb-5 flex size-11 items-center justify-center rounded-lg bg-secondary">
 					<Icon className="size-5" aria-hidden="true" />
 				</div>
-				<Card.Title className="text-xl font-semibold">{title}</Card.Title>
-				<Card.Description className="leading-6 text-pretty">{description}</Card.Description>
-			</Card.Header>
+				<CardTitle className="text-xl font-semibold">{title}</CardTitle>
+				<CardDescription className="leading-6 text-pretty">{description}</CardDescription>
+			</CardHeader>
 		</Card>
 	);
 }
@@ -214,11 +217,11 @@ function FeatureCard({ icon: Icon, title, description }: { icon: typeof CloudOff
 function Step({ number, title, description }: { number: string; title: string; description: string }) {
 	return (
 		<Card>
-			<Card.Header className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1">
-				<div className="row-span-2 inline-flex size-8 items-center justify-center rounded-full bg-default text-sm tabular-nums">{number}</div>
-				<Card.Title>{title}</Card.Title>
-				<Card.Description className="leading-6 text-pretty">{description}</Card.Description>
-			</Card.Header>
+			<CardHeader className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1">
+				<div className="bg-default row-span-2 inline-flex size-8 items-center justify-center rounded-full text-sm tabular-nums">{number}</div>
+				<CardTitle>{title}</CardTitle>
+				<CardDescription className="leading-6 text-pretty">{description}</CardDescription>
+			</CardHeader>
 		</Card>
 	);
 }

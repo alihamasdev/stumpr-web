@@ -1,8 +1,9 @@
 import { useTransition } from "react";
-import { Button, toast } from "@heroui/react";
 import { useNavigate } from "@tanstack/react-router";
+import { toast } from "sonner";
 
 import { authClient } from "@/lib/auth/client";
+import { Button } from "@/components/ui/button";
 
 export function GoogleLogin({ ...props }: React.ComponentProps<typeof Button>) {
 	const navigate = useNavigate();
@@ -11,7 +12,7 @@ export function GoogleLogin({ ...props }: React.ComponentProps<typeof Button>) {
 
 	return (
 		<Button
-			isPending={isPending || isSessionPending}
+			disabled={isPending || isSessionPending}
 			onClick={() =>
 				startTransition(async () => {
 					if (session) {
