@@ -1,11 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { CloudOffIcon, RotateCcwIcon, UsersIcon } from "lucide-react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { GoogleLogin } from "@/components/google-login";
+import { GoogleLogin } from "@/components/auth/google-login";
 import { StumprIcon } from "@/components/icons";
 
 export const Route = createFileRoute("/")({
@@ -59,7 +59,7 @@ export const Route = createFileRoute("/")({
 								<span>Team-wide access</span>
 							</div>
 							<div className="flex flex-col gap-3 sm:flex-row">
-								<GoogleLogin size="lg" className="h-12 min-w-64" />
+								<GoogleLogin className="h-12 min-w-32 px-6 text-base" />
 							</div>
 						</div>
 
@@ -113,11 +113,11 @@ export const Route = createFileRoute("/")({
 					</section>
 
 					<section className="container space-y-10 py-12 md:py-20">
-						<div className="relative overflow-hidden rounded-xl bg-linear-to-br from-accent to-accent/85 px-8 py-10 md:rounded-3xl md:p-20">
+						<div className="relative overflow-hidden rounded-xl bg-linear-to-br from-primary to-primary/80 px-8 py-10 md:rounded-3xl md:p-20">
 							<div className="mx-auto flex max-w-3xl flex-col items-center space-y-10 text-center text-white">
 								<h2 className="mb-6! text-3xl font-bold text-balance sm:text-5xl">Your next match deserves a proper scorecard.</h2>
-								<p className="text-xl text-pretty">Sign in with Google and start building your cricket history with Stumpr.</p>
-								<GoogleLogin size="lg" variant="secondary" className="min-w-32" />
+								<p className="text-lg text-pretty text-white/90">Sign in with Google and start building your cricket history with Stumpr.</p>
+								<GoogleLogin variant="secondary" className="h-12 min-w-32 px-6 text-base" />
 							</div>
 						</div>
 					</section>
@@ -129,7 +129,7 @@ export const Route = createFileRoute("/")({
 							<StumprIcon className="size-6" />
 							<span className="text-2xl font-bold">Stumpr</span>
 						</div>
-						<p className="text-muted">Built for local teams and community cricket.</p>
+						<p className="text-muted-foreground">Built for local teams and community cricket.</p>
 					</div>
 				</footer>
 			</div>
@@ -157,7 +157,7 @@ function ScorecardPreview() {
 						<TeamScore name="Corner Kings" score="112/3" overs="15.2 ov" active />
 					</div>
 
-					<div className="bg-default rounded-lg p-4">
+					<div className="rounded-lg bg-muted p-4">
 						<div className="flex items-center justify-between gap-4 text-sm">
 							<span>Need 37 from 28 balls</span>
 							<span className="font-medium tabular-nums">RR 7.30</span>
@@ -165,10 +165,10 @@ function ScorecardPreview() {
 					</div>
 
 					<div className="flex flex-col gap-2">
-						<span className="text-sm text-muted">This over</span>
+						<span className="text-sm text-muted-foreground">This over</span>
 						<div className="flex gap-2">
 							{["1", "4", "0", "2"].map((ball) => (
-								<div key={ball} className="bg-default inline-flex size-8 items-center justify-center rounded-full text-sm tabular-nums">
+								<div key={ball} className="inline-flex size-8 items-center justify-center rounded-full bg-muted text-sm tabular-nums">
 									{ball}
 								</div>
 							))}
@@ -218,7 +218,7 @@ function Step({ number, title, description }: { number: string; title: string; d
 	return (
 		<Card>
 			<CardHeader className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1">
-				<div className="bg-default row-span-2 inline-flex size-8 items-center justify-center rounded-full text-sm tabular-nums">{number}</div>
+				<div className="row-span-2 inline-flex size-8 items-center justify-center rounded-full bg-muted text-sm tabular-nums">{number}</div>
 				<CardTitle>{title}</CardTitle>
 				<CardDescription className="leading-6 text-pretty">{description}</CardDescription>
 			</CardHeader>

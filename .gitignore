@@ -10,6 +10,6 @@ dist-ssr
 .output
 .vinxi
 __unconfig*
-todos.json
-src/lib/prisma
+routeTree.gen.ts
+src/lib/prisma/**
 zero.db**
