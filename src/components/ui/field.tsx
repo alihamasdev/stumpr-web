@@ -9,7 +9,7 @@ function FieldSet({ className, ...props }: React.ComponentProps<"fieldset">) {
 	return (
 		<fieldset
 			data-slot="field-set"
-			className={cn("flex flex-col gap-6 has-[>[data-slot=checkbox-group]]:gap-3 has-[>[data-slot=radio-group]]:gap-3", className)}
+			className={cn("flex flex-col gap-4 has-[>[data-slot=checkbox-group]]:gap-3 has-[>[data-slot=radio-group]]:gap-3", className)}
 			{...props}
 		/>
 	);
@@ -20,7 +20,7 @@ function FieldLegend({ className, variant = "legend", ...props }: React.Componen
 		<legend
 			data-slot="field-legend"
 			data-variant={variant}
-			className={cn("mb-3 font-medium data-[variant=label]:text-sm data-[variant=legend]:text-base", className)}
+			className={cn("mb-1.5 font-medium data-[variant=label]:text-sm data-[variant=legend]:text-base", className)}
 			{...props}
 		/>
 	);
@@ -31,7 +31,7 @@ function FieldGroup({ className, ...props }: React.ComponentProps<"div">) {
 		<div
 			data-slot="field-group"
 			className={cn(
-				"group/field-group @container/field-group flex w-full flex-col gap-6 data-[slot=checkbox-group]:gap-3 *:data-[slot=field-group]:gap-4",
+				"group/field-group @container/field-group flex w-full flex-col gap-5 data-[slot=checkbox-group]:gap-3 *:data-[slot=field-group]:gap-4",
 				className,
 			)}
 			{...props}
@@ -59,7 +59,7 @@ function Field({ className, orientation = "vertical", ...props }: React.Componen
 }
 
 function FieldContent({ className, ...props }: React.ComponentProps<"div">) {
-	return <div data-slot="field-content" className={cn("group/field-content flex flex-1 flex-col gap-1 leading-snug", className)} {...props} />;
+	return <div data-slot="field-content" className={cn("group/field-content flex flex-1 flex-col gap-0.5 leading-snug", className)} {...props} />;
 }
 
 function FieldLabel({ className, ...props }: React.ComponentProps<typeof Label>) {
@@ -67,7 +67,7 @@ function FieldLabel({ className, ...props }: React.ComponentProps<typeof Label>)
 		<Label
 			data-slot="field-label"
 			className={cn(
-				"group/field-label peer/field-label flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50 has-data-checked:border-primary/30 has-data-checked:bg-primary/5 has-[>[data-slot=field]]:rounded-md has-[>[data-slot=field]]:border *:data-[slot=field]:p-3 dark:has-data-checked:border-primary/20 dark:has-data-checked:bg-primary/10",
+				"group/field-label peer/field-label flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50 has-data-checked:border-primary/30 has-data-checked:bg-primary/5 has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:border *:data-[slot=field]:p-2.5 dark:has-data-checked:border-primary/20 dark:has-data-checked:bg-primary/10",
 				"has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col",
 				className,
 			)}
@@ -148,7 +148,7 @@ function FieldError({
 			return uniqueErrors[0]?.message;
 		}
 
-		return <ul className="ml-4 flex list-disc flex-col">{uniqueErrors.map((error, index) => error?.message && <li key={index}>{error.message}</li>)}</ul>;
+		return <ul className="ml-4 flex list-disc flex-col gap-1">{uniqueErrors.map((error, index) => error?.message && <li key={index}>{error.message}</li>)}</ul>;
 	}, [children, errors]);
 
 	if (!content) {
