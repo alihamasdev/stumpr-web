@@ -12,7 +12,7 @@ export const Route = createFileRoute("/")({
 	component: () => {
 		return (
 			<div className="relative flex min-h-dvh w-full flex-col overflow-x-hidden">
-				<header className="fixed top-8 left-1/2 z-10 container w-full -translate-x-1/2 rounded-full border bg-background/50 backdrop-blur-xl">
+				<header className="fixed top-8 left-1/2 z-10 container mx-auto w-full -translate-x-1/2 rounded-full border bg-background/50 backdrop-blur-xl">
 					<div className="flex items-center justify-between px-4 py-4">
 						<Link to="/" className="flex items-center gap-1.5">
 							<StumprIcon className="size-6" />
@@ -33,11 +33,11 @@ export const Route = createFileRoute("/")({
 					</div>
 				</header>
 
-				<div className="absolute top-20 -left-40 h-80 w-80 rounded-full bg-accent/40 blur-[120px] sm:-left-60 sm:h-[512px] sm:w-[512px] sm:blur-[160px]" />
-				<div className="absolute top-28 -right-40 h-80 w-80 rounded-full bg-accent/30 blur-[120px] sm:-right-60 sm:h-[512px] sm:w-[512px] sm:blur-[160px]" />
+				<div className="absolute top-20 -left-40 h-80 w-80 rounded-full bg-accent/40 blur-[120px] sm:-left-60 sm:h-128 sm:w-lg sm:blur-[160px]" />
+				<div className="absolute top-28 -right-40 h-80 w-80 rounded-full bg-accent/30 blur-[120px] sm:-right-60 sm:h-128 sm:w-lg sm:blur-[160px]" />
 
 				<main className="relative overflow-x-hidden py-16 md:py-20">
-					<section className="relative container grid items-center gap-14 py-20 lg:grid-cols-[1.05fr_0.95fr]">
+					<section className="relative container mx-auto grid items-center gap-14 py-20 lg:grid-cols-[1.05fr_0.95fr]">
 						<div className="flex max-w-3xl flex-col items-start gap-6">
 							<div className="flex flex-col gap-5">
 								<h1 className="text-5xl font-bold text-balance sm:text-6xl">
@@ -66,7 +66,7 @@ export const Route = createFileRoute("/")({
 						<ScorecardPreview />
 					</section>
 
-					<section id="features" className="container scroll-mt-20 py-12 md:py-20">
+					<section id="features" className="container mx-auto scroll-mt-20 py-12 md:py-20">
 						<div className="flex flex-col space-y-10">
 							<div className="flex max-w-2xl flex-col gap-4">
 								<h2 className="text-3xl font-bold text-balance sm:text-5xl">Everything your local cricket needs.</h2>
@@ -93,7 +93,7 @@ export const Route = createFileRoute("/")({
 						</div>
 					</section>
 
-					<section id="how-it-works" className="container scroll-mt-20 py-12 md:py-20">
+					<section id="how-it-works" className="container mx-auto scroll-mt-20 py-12 md:py-20">
 						<div className="grid gap-12 lg:grid-cols-2 lg:items-start">
 							<div className="flex max-w-xl flex-col gap-4">
 								<h2 className="text-3xl font-bold text-balance sm:text-5xl">From toss to scorecard in three steps.</h2>
@@ -112,7 +112,7 @@ export const Route = createFileRoute("/")({
 						</div>
 					</section>
 
-					<section className="container space-y-10 py-12 md:py-20">
+					<section className="container mx-auto space-y-10 py-12 md:py-20">
 						<div className="relative overflow-hidden rounded-xl bg-linear-to-br from-primary to-primary/80 px-8 py-10 md:rounded-3xl md:p-20">
 							<div className="mx-auto flex max-w-3xl flex-col items-center space-y-10 text-center text-white">
 								<h2 className="mb-6! text-3xl font-bold text-balance sm:text-5xl">Your next match deserves a proper scorecard.</h2>
@@ -124,7 +124,7 @@ export const Route = createFileRoute("/")({
 				</main>
 
 				<footer className="border-t">
-					<div className="container flex flex-col gap-4 px-4 py-8 text-sm sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+					<div className="container mx-auto flex flex-col gap-4 px-4 py-8 text-sm sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
 						<div className="flex items-center gap-1.5">
 							<StumprIcon className="size-6" />
 							<span className="text-2xl font-bold">Stumpr</span>

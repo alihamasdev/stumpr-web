@@ -14,7 +14,7 @@ import { FieldGroup } from "@/components/ui/field";
 import { Form } from "@/components/ui/form";
 import { Spinner } from "@/components/ui/spinner";
 
-export const Route = createFileRoute("/orgs/new")({
+export const Route = createFileRoute("/_auth/new")({
 	component: NewOrgRoute,
 });
 
@@ -63,9 +63,9 @@ function NewOrgRoute() {
 	});
 
 	return (
-		<main className="container flex justify-center">
+		<main className="container mx-auto flex min-h-dvh items-center justify-center">
 			<Card className="w-full max-w-sm md:max-w-md">
-				<CardHeader className="border-b">
+				<CardHeader>
 					<CardTitle>Create Organization</CardTitle>
 				</CardHeader>
 

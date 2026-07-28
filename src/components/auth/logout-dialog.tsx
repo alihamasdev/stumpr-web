@@ -14,12 +14,12 @@ export function LogoutDialog({ ...props }: React.ComponentProps<typeof Dialog>) 
 
 	return (
 		<Dialog {...props}>
-			<DialogContent className="max-w-sm">
+			<DialogContent className="max-w-2xs">
 				<DialogHeader>
 					<DialogTitle>Confirm logout?</DialogTitle>
 					<DialogDescription>Are you sure you want to logout from your account?</DialogDescription>
 				</DialogHeader>
-				<DialogFooter className="grid md:grid-cols-2">
+				<DialogFooter className="grid grid-cols-2">
 					<DialogClose
 						render={(props) => (
 							<Button variant="outline" {...props}>
