@@ -171,7 +171,7 @@ function Sidebar({
 					<SheetFooter className="p-0">
 						<SidebarMenu>
 							<SidebarMenuItem>
-								<UserMenu align="center">
+								<UserMenu align="center" onLogoutClick={() => setOpenMobile(false)}>
 									<DropdownMenuTrigger
 										render={(props) => (
 											<SidebarMenuButton size="lg" {...props}>

@@ -1,17 +1,7 @@
-import { useNavigate } from "@tanstack/react-router";
-
-import { authClient } from "@/lib/auth/client";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
-export function LogoutDialog({ ...props }: React.ComponentProps<typeof Dialog>) {
-	const naviagte = useNavigate();
-
-	const handleLogout = async () => {
-		await authClient.signOut();
-		naviagte({ to: "/" });
-	};
-
+export function LogoutDialog({ logoutUser, ...props }: React.ComponentProps<typeof Dialog> & { logoutUser: () => Promise<void> }) {
 	return (
 		<Dialog {...props}>
 			<DialogContent className="max-w-2xs">
@@ -27,7 +17,7 @@ export function LogoutDialog({ ...props }: React.ComponentProps<typeof Dialog>) 
 							</Button>
 						)}
 					/>
-					<Button variant="destructive" onClick={handleLogout}>
+					<Button variant="destructive" onClick={logoutUser}>
 						Logout
 					</Button>
 				</DialogFooter>

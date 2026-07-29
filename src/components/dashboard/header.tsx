@@ -6,7 +6,7 @@ import { UserMenu } from "@/components/auth/user-menu";
 export function DashboardHeader() {
 	return (
 		<header className="border-b px-2 py-2 md:px-4">
-			<div className="flex items-center justify-between gap-3">
+			<div className="flex max-h-8 items-center justify-between gap-3">
 				<div className="flex items-center gap-3">
 					<div className="contents xl:hidden">
 						<SidebarTrigger />
@@ -20,7 +20,9 @@ export function DashboardHeader() {
 						</BreadcrumbList>
 					</Breadcrumb>
 				</div>
-				<UserMenu />
+				<div className="hidden md:block">
+					<UserMenu />
+				</div>
 			</div>
 		</header>
 	);

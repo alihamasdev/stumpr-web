@@ -1,21 +1,74 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { useQuery } from "@rocicorp/zero/react";
+import { createFileRoute, Link, notFound, Outlet, useParams } from "@tanstack/react-router";
+import { ChevronLeftIcon } from "lucide-react";
 
+import { queries } from "@/lib/zero/queries";
+import { useAuth } from "@/contexts/auth-context";
+import { OrgProvider } from "@/contexts/org-context";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { DashboardHeader } from "@/components/dashboard/header";
 import { DashboardSidebar } from "@/components/dashboard/sidebar";
+import { ChangeOrg } from "@/components/dialogs/change-org";
 
 export const Route = createFileRoute("/_auth/$orgId")({
-	component: OrganizationLayout,
-});
+	ssr: false,
+	component: () => {
+		const { joinedOrgs, user } = useAuth();
+		const { orgId } = useParams({ from: "/_auth/$orgId" });
 
-function OrganizationLayout() {
-	return (
-		<SidebarProvider>
-			<DashboardSidebar />
-			<SidebarInset>
-				<DashboardHeader />
-				<Outlet />
-			</SidebarInset>
-		</SidebarProvider>
-	);
-}
+		const [orgMember] = useQuery(queries.getOrgMember({ orgId, userId: user.id }));
+
+		const currentOrg = joinedOrgs.find((org) => org.id === orgId);
+		if (!currentOrg || !orgMember) {
+			throw notFound();
+		}
+
+		return (
+			<OrgProvider org={currentOrg} isAdmin={orgMember.role === "owner"}>
+				<SidebarProvider>
+					<DashboardSidebar />
+					<SidebarInset>
+						<DashboardHeader />
+						<Outlet />
+					</SidebarInset>
+				</SidebarProvider>
+			</OrgProvider>
+		);
+	},
+	notFoundComponent: ({ routeId }) => {
+		const { orgId } = useParams({ from: "/_auth/$orgId" });
+
+		const isOrgNotFound = routeId === "/_auth/$orgId";
+		const isMatchNotFound = routeId === "/_auth/$orgId/matches/";
+		const isPlayerNotFound = routeId === "/_auth/$orgId/players/";
+
+		return (
+			<Empty className="gap-6">
+				<EmptyTitle className="text-6xl font-bold text-primary md:text-9xl">404</EmptyTitle>
+				<EmptyDescription className="md:text-lg">
+					Sorry, we couldn't find the {isOrgNotFound ? "organization" : isMatchNotFound ? "match" : isPlayerNotFound ? "player" : "page"} you're looking for.
+				</EmptyDescription>
+				<div className="flex items-center justify-center gap-4">
+					{isOrgNotFound ? (
+						<ChangeOrg orgId={orgId} align="center">
+							<Button size="lg" variant="outline">
+								Select Organization
+							</Button>
+						</ChangeOrg>
+					) : (
+						<Link
+							params={{ orgId }}
+							className={buttonVariants({ size: "lg", variant: "outline", className: "border-border!" })}
+							to={isMatchNotFound ? "/$orgId/matches" : isPlayerNotFound ? "/$orgId/players" : "/$orgId/home"}
+						>
+							<ChevronLeftIcon />
+							Back To {isMatchNotFound ? "Matches" : isPlayerNotFound ? "Players" : "Home"}
+						</Link>
+					)}
+				</div>
+			</Empty>
+		);
+	},
+});
