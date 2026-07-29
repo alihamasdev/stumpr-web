@@ -13,16 +13,17 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export function UserMenu({ onLogoutClick, className, children, ...props }: React.ComponentProps<typeof DropdownMenuContent> & { onLogoutClick?: () => void }) {
+type UserMenuProps = React.ComponentProps<typeof DropdownMenuContent> & {
+	onLogoutClick?: () => void;
+	trigger: React.ReactElement<"button">;
+};
+
+export function UserMenu({ trigger, onLogoutClick, align = "center", className, ...props }: UserMenuProps) {
 	const { toogleLogout } = useAuth();
 	return (
 		<DropdownMenu>
-			{children ?? (
-				<DropdownMenuTrigger>
-					<UserDetails avatarOnly />
-				</DropdownMenuTrigger>
-			)}
-			<DropdownMenuContent align="end" className={cn("w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg", className)} {...props}>
+			<DropdownMenuTrigger render={trigger} />
+			<DropdownMenuContent align={align} className={cn("min-w-56 rounded-lg", className)} {...props}>
 				<DropdownMenuGroup>
 					<DropdownMenuLabel className="flex items-center gap-2 text-left text-sm font-normal">
 						<UserDetails />
@@ -44,7 +45,7 @@ export function UserMenu({ onLogoutClick, className, children, ...props }: React
 	);
 }
 
-export function UserDetails({ avatarOnly }: { avatarOnly?: boolean }) {
+export function UserDetails() {
 	const { user } = useAuth();
 
 	return (
@@ -53,12 +54,10 @@ export function UserDetails({ avatarOnly }: { avatarOnly?: boolean }) {
 				{user.image && <AvatarImage src={user.image} alt={user.name} />}
 				<AvatarFallback>{user.name}</AvatarFallback>
 			</Avatar>
-			{!avatarOnly && (
-				<div className="grid flex-1 text-left text-sm leading-tight">
-					<span className="truncate font-medium text-foreground">{user.name}</span>
-					<span className="truncate text-xs">{user.email}</span>
-				</div>
-			)}
+			<div className="grid flex-1 text-left text-sm leading-tight">
+				<span className="truncate font-medium text-foreground">{user.name}</span>
+				<span className="truncate text-xs">{user.email}</span>
+			</div>
 		</>
 	);
 }

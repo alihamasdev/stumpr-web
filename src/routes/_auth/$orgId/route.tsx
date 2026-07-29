@@ -8,7 +8,6 @@ import { OrgProvider } from "@/contexts/org-context";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { DashboardHeader } from "@/components/dashboard/header";
 import { DashboardSidebar } from "@/components/dashboard/sidebar";
 import { ChangeOrg } from "@/components/dialogs/change-org";
 
@@ -30,7 +29,6 @@ export const Route = createFileRoute("/_auth/$orgId")({
 				<SidebarProvider>
 					<DashboardSidebar />
 					<SidebarInset>
-						<DashboardHeader />
 						<Outlet />
 					</SidebarInset>
 				</SidebarProvider>
@@ -52,11 +50,15 @@ export const Route = createFileRoute("/_auth/$orgId")({
 				</EmptyDescription>
 				<div className="flex items-center justify-center gap-4">
 					{isOrgNotFound ? (
-						<ChangeOrg orgId={orgId} align="center">
-							<Button size="lg" variant="outline">
-								Select Organization
-							</Button>
-						</ChangeOrg>
+						<ChangeOrg
+							orgId={orgId}
+							align="center"
+							trigger={
+								<Button size="lg" variant="outline">
+									Select Organization
+								</Button>
+							}
+						/>
 					) : (
 						<Link
 							params={{ orgId }}

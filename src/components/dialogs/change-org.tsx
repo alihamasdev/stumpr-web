@@ -1,3 +1,4 @@
+import type React from "react";
 import { Link } from "@tanstack/react-router";
 import { CheckIcon, PlusIcon } from "lucide-react";
 
@@ -5,20 +6,18 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/auth-context";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
-type ChangeOrgProps = {
+type ChangeOrgProps = React.ComponentProps<typeof DropdownMenuContent> & {
 	orgId: string;
-	className?: string;
-	align?: "start" | "center" | "end";
-	children: React.ReactElement<"button">;
+	trigger: React.ReactElement<"button">;
 };
 
-export function ChangeOrg({ orgId, align = "start", className, children }: ChangeOrgProps) {
+export function ChangeOrg({ orgId, trigger, align = "start", className, ...props }: ChangeOrgProps) {
 	const { joinedOrgs } = useAuth();
 
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger render={children} />
-			<DropdownMenuContent align={align} className={cn("min-w-56", className)}>
+			<DropdownMenuTrigger render={trigger} />
+			<DropdownMenuContent align={align} className={cn("min-w-56", className)} {...props}>
 				{joinedOrgs.map((organization) => (
 					<DropdownMenuItem
 						key={organization.id}

@@ -1,18 +1,21 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { ChevronsUpDownIcon, HomeIcon, LayoutDashboardIcon, LayoutGridIcon, UserIcon, UsersIcon } from "lucide-react";
+import { ChevronsUpDownIcon, EllipsisVerticalIcon, HomeIcon, LayoutDashboardIcon, LayoutGridIcon, UserIcon, UsersIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { useOrg } from "@/contexts/org-context";
 import {
 	Sidebar,
 	SidebarContent,
+	SidebarFooter,
 	SidebarGroup,
 	SidebarGroupContent,
 	SidebarHeader,
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
+	useSidebar,
 } from "@/components/ui/sidebar";
+import { UserDetails, UserMenu } from "@/components/auth/user-menu";
 import { ChangeOrg } from "@/components/dialogs/change-org";
 
 const pages = [
@@ -25,29 +28,28 @@ const pages = [
 export function DashboardSidebar() {
 	const { org } = useOrg();
 	const { pathname } = useLocation();
+	const { state, setOpenMobile } = useSidebar();
 
 	return (
-		<Sidebar variant="inset" collapsible="icon">
-			<SidebarHeader className="md:pt-0">
+		<Sidebar variant="floating" collapsible="icon">
+			<SidebarHeader>
 				<SidebarMenu>
 					<SidebarMenuItem>
-						<ChangeOrg orgId={org.id} align="start">
-							<SidebarMenuButton
-								size="lg"
-								className={cn(
-									"rounded-lg bg-background text-foreground shadow-xs hover:bg-background",
-									"group-data-[state=collapsed]:rounded-md group-data-[state=collapsed]:shadow-sm",
-								)}
-							>
-								<div className="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
-									<LayoutDashboardIcon className="size-4" />
-								</div>
-								<div className="flex flex-col gap-0.5 leading-none">
-									<span className="text-base font-medium">{org.name}</span>
-								</div>
-								<ChevronsUpDownIcon className="ml-auto text-muted-foreground" />
-							</SidebarMenuButton>
-						</ChangeOrg>
+						<ChangeOrg
+							orgId={org.id}
+							align={state === "collapsed" ? "start" : "center"}
+							trigger={
+								<SidebarMenuButton size="lg">
+									<div className="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
+										<LayoutDashboardIcon className="size-4" />
+									</div>
+									<div className="flex flex-col gap-0.5 leading-none">
+										<span className="text-base font-medium">{org.name}</span>
+									</div>
+									<ChevronsUpDownIcon className="ml-auto text-muted-foreground" />
+								</SidebarMenuButton>
+							}
+						/>
 					</SidebarMenuItem>
 				</SidebarMenu>
 			</SidebarHeader>
@@ -62,6 +64,7 @@ export function DashboardSidebar() {
 										<SidebarMenuButton
 											tooltip={page.title}
 											isActive={pathname === pageUrl}
+											onClick={() => setOpenMobile(false)}
 											render={(props) => (
 												<Link to={pageUrl} {...props}>
 													<page.icon />
@@ -76,6 +79,22 @@ export function DashboardSidebar() {
 					</SidebarGroupContent>
 				</SidebarGroup>
 			</SidebarContent>
+			<SidebarFooter>
+				<SidebarMenu>
+					<SidebarMenuItem>
+						<UserMenu
+							align={state === "collapsed" ? "start" : "center"}
+							onLogoutClick={() => setOpenMobile(false)}
+							trigger={
+								<SidebarMenuButton size="lg">
+									<UserDetails />
+									<EllipsisVerticalIcon />
+								</SidebarMenuButton>
+							}
+						/>
+					</SidebarMenuItem>
+				</SidebarMenu>
+			</SidebarFooter>
 		</Sidebar>
 	);
 }
