@@ -28,7 +28,7 @@ export const Route = createFileRoute("/_auth/$orgId")({
 			<OrgProvider org={currentOrg} isAdmin={orgMember.role === "owner"}>
 				<SidebarProvider>
 					<DashboardSidebar />
-					<SidebarInset>
+					<SidebarInset className="container">
 						<Outlet />
 					</SidebarInset>
 				</SidebarProvider>

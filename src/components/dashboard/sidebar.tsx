@@ -44,7 +44,7 @@ export function DashboardSidebar() {
 										<LayoutDashboardIcon className="size-4" />
 									</div>
 									<div className="flex flex-col gap-0.5 leading-none">
-										<span className="text-base font-medium">{org.name}</span>
+										<span className="text-base font-semibold">{org.name}</span>
 									</div>
 									<ChevronsUpDownIcon className="ml-auto text-muted-foreground" />
 								</SidebarMenuButton>
