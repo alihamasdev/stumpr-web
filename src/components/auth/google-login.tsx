@@ -18,12 +18,13 @@ export function GoogleLogin({ className, ...props }: React.ComponentProps<typeof
 			onClick={() =>
 				startTransition(async () => {
 					if (session) {
-						return navigate({ to: "/orgs" });
+						return navigate({ to: "/$orgId/home", params: { orgId: "orgs" } });
 					}
 
 					await authClient.signIn.social({
 						provider: "google",
 						callbackURL: "/orgs",
+						newUserCallbackURL: "/new",
 						fetchOptions: {
 							onError: (err) => {
 								console.error("Google auth error: ", err);

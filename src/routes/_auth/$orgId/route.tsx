@@ -8,8 +8,8 @@ import { OrgProvider } from "@/contexts/org-context";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { OrgDropdown } from "@/components/dashboard/org-dropdown";
 import { DashboardSidebar } from "@/components/dashboard/sidebar";
-import { ChangeOrg } from "@/components/dialogs/change-org";
 
 export const Route = createFileRoute("/_auth/$orgId")({
 	ssr: false,
@@ -50,7 +50,7 @@ export const Route = createFileRoute("/_auth/$orgId")({
 				</EmptyDescription>
 				<div className="flex items-center justify-center gap-4">
 					{isOrgNotFound ? (
-						<ChangeOrg
+						<OrgDropdown
 							orgId={orgId}
 							align="center"
 							trigger={

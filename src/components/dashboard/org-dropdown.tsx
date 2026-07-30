@@ -1,4 +1,3 @@
-import type React from "react";
 import { Link } from "@tanstack/react-router";
 import { CheckIcon, PlusIcon } from "lucide-react";
 
@@ -6,12 +5,12 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/auth-context";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
-type ChangeOrgProps = React.ComponentProps<typeof DropdownMenuContent> & {
+type OrgDropdownProps = React.ComponentProps<typeof DropdownMenuContent> & {
 	orgId: string;
 	trigger: React.ReactElement<"button">;
 };
 
-export function ChangeOrg({ orgId, trigger, align = "start", className, ...props }: ChangeOrgProps) {
+export function OrgDropdown({ orgId, trigger, align = "start", className, ...props }: OrgDropdownProps) {
 	const { joinedOrgs } = useAuth();
 
 	return (

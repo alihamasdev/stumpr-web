@@ -16,7 +16,7 @@ import {
 	useSidebar,
 } from "@/components/ui/sidebar";
 import { UserDetails, UserMenu } from "@/components/auth/user-menu";
-import { ChangeOrg } from "@/components/dialogs/change-org";
+import { OrgDropdown } from "@/components/dashboard/org-dropdown";
 
 const pages = [
 	{ title: "Home", url: "/home", icon: HomeIcon },
@@ -35,7 +35,7 @@ export function DashboardSidebar() {
 			<SidebarHeader>
 				<SidebarMenu>
 					<SidebarMenuItem>
-						<ChangeOrg
+						<OrgDropdown
 							orgId={org.id}
 							align={state === "collapsed" ? "start" : "center"}
 							trigger={
